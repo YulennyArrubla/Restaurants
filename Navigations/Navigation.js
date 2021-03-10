@@ -1,6 +1,8 @@
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
+import { Icon } from 'react-native-elements'
+
 
 import RestaurantsStack from './RestaurantsStack'
 import FavoritesStack from './FavoritesStack'
@@ -8,13 +10,52 @@ import TopsRestaurantsStack from './TopRestaurantsStack'
 import SearchStack from './SearchStack'
 import AccountStack from './AccountStack'
 
-
 const Tab= createBottomTabNavigator()
 
 export default function Navigation() {
+    const screenOptions =(route, color) =>{
+        let iconName
+        switch (route.name) {
+            case "restaurants":
+                iconName = "compass-outline"
+                break;
+            case "favorites":
+                iconName = "heart-outline"
+                break;
+            case "top-restautants":
+                iconName = "star-outline"
+            break;
+            case "search":
+                iconName = "magnify"
+            break;
+            case "account":
+                iconName = "home-outline"
+            break;
+            
+        }
+
+        return (
+            <Icon
+                type="material-community"
+                name={iconName}
+                size={22}
+                color={color}
+            />
+        )
+    }
+
     return (
         <NavigationContainer>
-            <Tab.Navigator>
+            <Tab.Navigator
+                initialRouteName="restaurants"
+                tabBarOptions={{
+                    inactiveTintColor:"#2596be",
+                    activeTintColor:"#ec2c79"
+                }}
+                screenOptions= {({ route }) => ({
+                    tabBarIcon: ({ color }) => screenOptions(route, color)
+                })}
+            >
                 <Tab.Screen
                     name="restaurants"
                     component={RestaurantsStack}
